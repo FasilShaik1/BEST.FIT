@@ -69,11 +69,9 @@ Since this is a static website hosted on GitHub Pages, we cannot write directly 
 
 Follow these 5 simple steps to set it up:
 
-### Step 1: Create a Google Sheet
-1. Open your Google Drive folder: [Google Drive Folder](https://drive.google.com/drive/folders/1YMaDgwqNZsPSZdVInf5E00TPsBeZqEA7?usp=sharing).
-2. Click **New** -> **Google Sheets**.
-3. Name the spreadsheet (e.g., `best-fit-registrations`).
-4. Rename the first row of columns to:
+### Step 1: Set Up Your Google Sheet
+1. Open your provided Google Sheet: [best-fit-registrations](https://docs.google.com/spreadsheets/d/1kyF4HlA2XDigjBJcf7Mmd5yZh2b3H04BST7-6gZxgwM/edit?usp=sharing).
+2. Ensure the first row contains these column headers exactly (Case Sensitive):
    - Column A: `Timestamp`
    - Column B: `Name`
    - Column C: `Email`
@@ -86,47 +84,19 @@ Follow these 5 simple steps to set it up:
 3. Copy and paste the following Google Apps Script code into the script editor:
 
 ```javascript
-function doPost(e) {
+function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var name = "";
-  var email = "";
-  var phone = "";
-  var goal = "";
-  
-  try {
-    if (e.postData && e.postData.contents) {
-      var data = JSON.parse(e.postData.contents);
-      name = data.name;
-      email = data.email;
-      phone = data.phone;
-      goal = data.goal;
-    } else {
-      name = e.parameter.name;
-      email = e.parameter.email;
-      phone = e.parameter.phone;
-      goal = e.parameter.goal;
-    }
-  } catch(err) {
-    name = e.parameter.name || "";
-    email = e.parameter.email || "";
-    phone = e.parameter.phone || "";
-    goal = e.parameter.goal || "";
-  }
-  
-  // Append new registration details
-  sheet.appendRow([new Date(), name, email, phone, goal]);
-  
-  // Respond to the request and enable CORS header
-  return ContentService.createTextOutput(JSON.stringify({status: "success"}))
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader("Access-Control-Allow-Origin", "*");
-}
 
-function doOptions(e) {
-  return ContentService.createTextOutput("")
-    .setHeader("Access-Control-Allow-Origin", "*")
-    .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+  var name  = e.parameter.name  || '';
+  var email = e.parameter.email || '';
+  var phone = e.parameter.phone || '';
+  var goal  = e.parameter.goal  || '';
+
+  sheet.appendRow([new Date(), name, email, phone, goal]);
+
+  return ContentService.createTextOutput(
+    JSON.stringify({ status: 'success' })
+  ).setMimeType(ContentService.MimeType.JSON);
 }
 ```
 

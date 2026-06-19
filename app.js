@@ -1,17 +1,16 @@
 // ==========================================================================
-// CONFIGURATION: Google Sheets Spreadsheet API URL (via Google Apps Script Web App)
-// Paste your deployed Google Apps Script Web App URL here to save leads directly
-// to an Excel-like Spreadsheet in your Google Drive folder.
-// Example: 'https://script.google.com/macros/s/AKfycbz...-xyz/exec'
+// CONFIGURATION: Google Sheets Integration
+// This URL is your deployed Google Apps Script Web App endpoint.
+// Follow the instructions in README.md to set this up.
+// Example: 'https://script.google.com/macros/s/AKfycbz.../exec'
 // ==========================================================================
 const GOOGLE_SCRIPT_URL = '';
 
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
-    // 1. Countdown Timer (Sets target to 45 days from current date)
+    // 1. Countdown Timer — Opening Date: June 27, 2026
     // ==========================================================================
-    const countdownTarget = new Date();
-    countdownTarget.setDate(countdownTarget.getDate() + 45); // 45 days countdown
+    const countdownTarget = new Date('2026-06-27T00:00:00+05:30');
 
     const updateCountdown = () => {
         const now = new Date().getTime();
@@ -33,20 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
     };
 
-    // Run immediately and then every second
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
 
     // ==========================================================================
-    // 2. Form Validation & Local Storage Persistence
+    // 2. Form Validation & Google Sheets Submission
     // ==========================================================================
     const leadForm = document.getElementById('leadForm');
     const successModal = document.getElementById('successModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const submitBtn = document.getElementById('submitBtn');
     
-    // Inputs & Errors
     const inputs = {
         name: {
             el: document.getElementById('fullName'),
@@ -61,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         phone: {
             el: document.getElementById('phone'),
             errorEl: document.getElementById('phoneError'),
-            validate: (val) => /^[6-9]\d{9}$/.test(val.trim()) // Indian mobile number pattern
+            validate: (val) => /^[6-9]\d{9}$/.test(val.trim())
         },
         goal: {
             el: document.getElementById('goal'),
@@ -70,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Remove error class on input
+    // Remove error state on user input
     Object.keys(inputs).forEach(key => {
         const input = inputs[key];
         input.el.addEventListener('input', () => {
@@ -83,13 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Form Submission
+    // Form Submission Handler
     leadForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         let isFormValid = true;
 
-        // Perform validation
         Object.keys(inputs).forEach(key => {
             const input = inputs[key];
             const value = input.el.value;
@@ -114,62 +110,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 </svg>
             `;
 
-            // Collect data
             const leadData = {
-                id: 'lead_' + Date.now(),
                 name: inputs.name.el.value.trim(),
                 email: inputs.email.el.value.trim(),
                 phone: inputs.phone.el.value.trim(),
                 goal: inputs.goal.el.value,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
             };
 
-            // Success handler helper
             const handleSuccess = (data) => {
-                // Populate Modal Data
                 document.getElementById('modalPhone').textContent = `+91 ${data.phone}`;
                 document.getElementById('modalEmail').textContent = data.email;
-
-                // Reset Form
                 leadForm.reset();
-
-                // Show Success Modal
                 successModal.classList.add('active');
-
-                // Reset Button State
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             };
 
-            // Local storage fallback helper
             const saveLocal = (data) => {
                 const currentLeads = JSON.parse(localStorage.getItem('bestfit_leads') || '[]');
                 currentLeads.push(data);
                 localStorage.setItem('bestfit_leads', JSON.stringify(currentLeads));
             };
 
-            // If Google Apps Script Web App URL is configured, send the data there
-            if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.trim() !== "") {
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // standard way to avoid CORS failures on redirect
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(leadData)
-                })
-                .then(() => {
-                    saveLocal(leadData); // Keep local backup as well
-                    handleSuccess(leadData);
-                })
-                .catch(err => {
-                    console.error('Error submitting to Google Sheet:', err);
-                    // Fallback to local storage on error
-                    saveLocal(leadData);
-                    handleSuccess(leadData);
+            // Submit to Google Sheets via Google Apps Script
+            if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.trim() !== '') {
+                // Build URL with query parameters (most reliable method for Apps Script)
+                const params = new URLSearchParams({
+                    name: leadData.name,
+                    email: leadData.email,
+                    phone: leadData.phone,
+                    goal: leadData.goal
                 });
+                const url = GOOGLE_SCRIPT_URL + '?' + params.toString();
+
+                fetch(url, { method: 'GET', mode: 'no-cors' })
+                    .then(() => {
+                        saveLocal(leadData);
+                        handleSuccess(leadData);
+                    })
+                    .catch(err => {
+                        console.error('Google Sheet submission error:', err);
+                        saveLocal(leadData);
+                        handleSuccess(leadData);
+                    });
             } else {
-                // If not configured, default to local storage saving with a short visual delay
+                // No Google Script URL configured — save locally only
                 setTimeout(() => {
                     saveLocal(leadData);
                     handleSuccess(leadData);
@@ -192,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================================================
-    // 3. Copy Address Clipboard functionality
+    // 3. Copy Address to Clipboard
     // ==========================================================================
     const copyBtn = document.getElementById('copyAddressBtn');
     const copyText = document.getElementById('copyText');
@@ -201,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const addressText = `best.fit powered by cult.fit, 5th Floor, Icon Shoppe, Shilpa Birla Compound, Behind Walmart, Kurnool, Andhra Pradesh - 518002, India`;
         
         navigator.clipboard.writeText(addressText).then(() => {
-            // Visual success feedback
             copyText.textContent = "Address Copied!";
             copyBtn.style.borderColor = "#10b981";
             copyBtn.style.color = "#10b981";
@@ -222,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     const revealElements = document.querySelectorAll('.feature-card, .hero-card, .register-info, .register-form-wrapper, .location-info-card, .hours-card, .map-container');
     
-    // Add CSS initial state for scroll reveal
     const style = document.createElement('style');
     style.innerHTML = `
         .reveal-hidden {
@@ -255,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Loading spinner CSS animation helper
+// Loading spinner CSS animation
 const spinStyle = document.createElement('style');
 spinStyle.innerHTML = `
     @keyframes rotate {
