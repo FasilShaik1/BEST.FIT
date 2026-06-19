@@ -52,11 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorEl: document.getElementById('nameError'),
             validate: (val) => val.trim().length >= 2
         },
-        email: {
-            el: document.getElementById('email'),
-            errorEl: document.getElementById('emailError'),
-            validate: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())
-        },
         phone: {
             el: document.getElementById('phone'),
             errorEl: document.getElementById('phoneError'),
@@ -126,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const leadData = {
                 name: inputs.name.el.value.trim(),
-                email: inputs.email.el.value.trim(),
+                email: '',
                 phone: inputs.phone.el.value.trim(),
                 goal: inputs.goal.el.value,
                 timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
@@ -134,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const handleSuccess = (data) => {
                 document.getElementById('modalPhone').textContent = `+91 ${data.phone}`;
-                document.getElementById('modalEmail').textContent = data.email;
                 leadForm.reset();
                 successModal.classList.add('active');
                 submitBtn.disabled = false;
@@ -221,7 +215,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // 4. Scroll Reveal Animations (Intersection Observer)
     // ==========================================================================
-    const revealElements = document.querySelectorAll('.feature-card, .hero-card, .register-info, .register-form-wrapper, .location-info-card, .hours-card, .map-container');
+    const totalFounderSlots = 100;
+    const baseRemainingSlots = 37;
+    const savedLeads = JSON.parse(localStorage.getItem('bestfit_leads') || '[]').length;
+    const slotsRemaining = Math.max(12, baseRemainingSlots - savedLeads);
+    const slotsRemainingEl = document.getElementById('slotsRemaining');
+    const slotsMeter = document.getElementById('slotsMeter');
+
+    if (slotsRemainingEl && slotsMeter) {
+        slotsRemainingEl.textContent = slotsRemaining;
+        slotsMeter.style.width = `${(slotsRemaining / totalFounderSlots) * 100}%`;
+    }
+
+    const revealElements = document.querySelectorAll('.program-card, .offer-panel, .proof-list article, .register-copy, .register-form-wrapper, .location-card, .map-container');
     
     const style = document.createElement('style');
     style.innerHTML = `
