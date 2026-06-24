@@ -1,34 +1,36 @@
 :root {
-    /* cult.fit Premium Brand Colors */
-    --brand-cyan: #00D4FF;
-    --brand-purple: #7C3AED;
-    --brand-gold: #FBBF24;
-    --brand-black: #0a0b0d;
+    /* BOLD MODERN COLOR PALETTE */
+    --primary-cyan: #00FFFF;
+    --primary-pink: #FF006E;
+    --accent-lime: #39FF14;
+    --dark-bg: #0a0e27;
+    --light-bg: #1a1f3a;
     --brand-white: #FFFFFF;
     
     /* Background Colors */
-    --bg-primary: var(--brand-black);
-    --bg-secondary: #111318;
-    --bg-tertiary: #1a1f2e;
+    --bg-primary: var(--dark-bg);
+    --bg-secondary: var(--light-bg);
+    --bg-tertiary: #151b35;
     
     /* Text Colors */
     --text-primary: var(--brand-white);
     --text-secondary: #e0e7ff;
-    --text-muted: #9ca3af;
+    --text-muted: #a0aec0;
     
     /* Brand Accent Colors */
-    --accent-cyan: var(--brand-cyan);
-    --accent-purple: var(--brand-purple);
-    --accent-gold: var(--brand-gold);
+    --accent-cyan: var(--primary-cyan);
+    --accent-pink: var(--primary-pink);
+    --accent-lime: var(--accent-lime);
     
-    /* Gradients */
-    --accent-gradient: linear-gradient(135deg, var(--brand-cyan) 0%, var(--brand-purple) 100%);
-    --gradient-glow: radial-gradient(circle at center, rgba(0, 212, 255, 0.3), transparent 70%);
-    --progress-gradient: linear-gradient(90deg, var(--brand-cyan) 0%, var(--brand-purple) 100%);
+    /* Gradients - Neon Vibes */
+    --gradient-neon: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 50%, var(--accent-lime) 100%);
+    --gradient-cyan-pink: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 100%);
+    --gradient-pink-lime: linear-gradient(135deg, var(--primary-pink) 0%, var(--accent-lime) 100%);
+    --gradient-glow: radial-gradient(circle at center, rgba(0, 255, 255, 0.4), transparent 70%);
     
     /* Semantic Colors */
-    --border: rgba(255, 255, 255, 0.08);
-    --border-accent: rgba(0, 212, 255, 0.2);
+    --border: rgba(0, 255, 255, 0.1);
+    --border-accent: rgba(0, 255, 255, 0.3);
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
     --radius-sm: 8px;
@@ -195,14 +197,15 @@ button, input, select {
 }
 
 .eyebrow {
-    color: var(--brand-gold);
+    color: var(--accent-lime);
     font-family: var(--font-heading);
     font-size: 0.82rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.2em;
     margin-bottom: 14px;
     text-transform: uppercase;
     animation: fadeInDown 0.8s ease-out;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
 }
 
 .btn {
@@ -243,28 +246,31 @@ button, input, select {
 }
 
 .btn-primary {
-    background: var(--accent-gradient);
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3), 0 14px 30px rgba(124, 58, 237, 0.2);
-    color: var(--brand-white);
+    background: var(--gradient-cyan-pink);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), 0 0 60px rgba(255, 0, 110, 0.2);
+    color: var(--dark-bg);
     position: relative;
     z-index: 1;
+    font-weight: 900;
 }
 
 .btn-primary:hover {
-    box-shadow: 0 0 50px rgba(0, 212, 255, 0.5), 0 20px 40px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.6), 0 0 100px rgba(255, 0, 110, 0.4);
+    background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-cyan) 100%);
 }
 
 .btn-secondary {
-    background: rgba(0, 212, 255, 0.08);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    color: var(--brand-white);
-    transition: all 0.35s ease;
+    background: rgba(0, 255, 255, 0.1);
+    border: 2px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .btn-secondary:hover {
-    background: rgba(0, 212, 255, 0.15);
-    border-color: rgba(0, 212, 255, 0.6);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    background: rgba(0, 255, 255, 0.2);
+    border-color: var(--primary-pink);
+    color: var(--brand-white);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(255, 0, 110, 0.1);
 }
 
 .btn-sm {
@@ -285,8 +291,8 @@ button, input, select {
 }
 
 .header {
-    background: rgba(10, 11, 13, 0.7);
-    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+    background: rgba(10, 14, 39, 0.7);
+    border-bottom: 2px solid var(--primary-cyan);
     backdrop-filter: blur(20px);
     left: 0;
     position: fixed;
@@ -294,6 +300,7 @@ button, input, select {
     width: 100%;
     z-index: 100;
     transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
 }
 
 .header-container {
@@ -318,16 +325,16 @@ button, input, select {
     font-family: var(--font-heading);
     font-size: 1.8rem;
     font-weight: 900;
-    letter-spacing: 0;
+    letter-spacing: -0.02em;
     line-height: 1;
-    background: linear-gradient(135deg, var(--brand-white) 0%, var(--brand-cyan) 100%);
+    background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .best-wordmark span {
-    background: linear-gradient(135deg, var(--brand-cyan) 0%, var(--brand-purple) 100%);
+    background: linear-gradient(135deg, var(--primary-pink) 0%, var(--accent-lime) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -467,11 +474,11 @@ button, input, select {
     font-family: var(--font-heading);
     font-size: clamp(2.25rem, 5vw, 4.35rem);
     font-weight: 900;
-    letter-spacing: 0;
-    line-height: 1.03;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
     max-width: 760px;
     animation: slideInLeft 0.8s ease-out;
-    background: linear-gradient(135deg, var(--brand-white) 0%, var(--brand-cyan) 100%);
+    background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 50%, var(--brand-white) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -513,12 +520,12 @@ button, input, select {
 .proof-list article,
 .register-form-wrapper,
 .location-card {
-    background: rgba(17, 19, 24, 0.6);
-    border: 1px solid var(--border-accent);
+    background: rgba(26, 31, 58, 0.5);
+    border: 2px solid var(--primary-cyan);
     border-radius: var(--radius-lg);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(10px);
-    transition: all 0.4s ease;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.15), 0 24px 60px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .offer-panel:hover,
@@ -526,9 +533,9 @@ button, input, select {
 .proof-list article:hover,
 .register-form-wrapper:hover,
 .location-card:hover {
-    border-color: rgba(0, 212, 255, 0.4);
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1), 0 24px 60px rgba(0, 0, 0, 0.28);
-    transform: translateY(-5px);
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.3), 0 0 80px rgba(255, 0, 110, 0.2), 0 24px 60px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px);
 }
 
 .offer-panel {
@@ -538,13 +545,14 @@ button, input, select {
 }
 
 .offer-kicker {
-    color: var(--brand-gold);
+    color: var(--accent-lime);
     font-family: var(--font-heading);
     font-size: 0.82rem;
     font-weight: 900;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     animation: fadeInUp 0.8s ease-out;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
 }
 
 .offer-panel h2 {
@@ -561,19 +569,21 @@ button, input, select {
 }
 
 .slots-meter {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--primary-cyan);
     border-radius: 999px;
     height: 10px;
     margin: 22px 0 10px;
     overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
 .slots-meter-fill {
-    background: var(--progress-gradient);
+    background: var(--gradient-cyan-pink);
     border-radius: inherit;
     height: 100%;
     width: 37%;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(255, 0, 110, 0.3);
     animation: glow 2s ease-in-out infinite;
 }
 
@@ -595,28 +605,31 @@ button, input, select {
 }
 
 .countdown div {
-    background: rgba(0, 212, 255, 0.08);
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(0, 255, 255, 0.08);
+    border: 2px solid var(--primary-cyan);
     border-radius: var(--radius-sm);
     padding: 10px 6px;
     text-align: center;
     transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
 }
 
 .countdown div:hover {
-    background: rgba(0, 212, 255, 0.15);
-    border-color: rgba(0, 212, 255, 0.6);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    background: rgba(0, 255, 255, 0.15);
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.3), 0 0 15px rgba(255, 0, 110, 0.2);
+    transform: scale(1.05);
 }
 
 .countdown strong {
-    color: var(--brand-cyan);
+    color: var(--primary-cyan);
     display: block;
     font-family: var(--font-heading);
     font-size: 1.45rem;
     line-height: 1;
     font-weight: 900;
     animation: countdownPulse 2s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
 }
 
 .countdown span {
@@ -645,22 +658,22 @@ button, input, select {
 }
 
 .program-card::before {
-    background: var(--progress-gradient);
+    background: var(--gradient-neon);
     content: '';
-    height: 3px;
+    height: 4px;
     left: 0;
     position: absolute;
     top: 0;
     width: 100%;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 110, 0.3);
 }
 
 .program-card span {
     align-items: center;
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(0, 255, 255, 0.1);
+    border: 2px solid var(--primary-cyan);
     border-radius: 12px;
-    color: var(--brand-cyan);
+    color: var(--primary-cyan);
     display: flex;
     font-family: var(--font-heading);
     font-weight: 900;
@@ -669,14 +682,14 @@ button, input, select {
     margin-bottom: 22px;
     width: 46px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
 .program-card:hover span {
-    background: rgba(0, 212, 255, 0.2);
-    border-color: rgba(0, 212, 255, 0.6);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-    transform: scale(1.1);
+    background: rgba(0, 255, 255, 0.2);
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), 0 0 15px rgba(255, 0, 110, 0.2);
+    transform: scale(1.15) rotate(5deg);
 }
 
 .program-card h3 {
@@ -723,8 +736,8 @@ button, input, select {
 
 .register {
     background:
-        radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.12), transparent 32%),
-        radial-gradient(circle at 92% 80%, rgba(0, 212, 255, 0.12), transparent 34%),
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 110, 0.15), transparent 32%),
+        radial-gradient(circle at 92% 80%, rgba(0, 255, 255, 0.15), transparent 34%),
         var(--bg-primary);
 }
 
@@ -762,21 +775,21 @@ button, input, select {
 
 .form-group input,
 .form-group select {
-    background: #0a0b0d;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(21, 27, 53, 0.6);
+    border: 2px solid var(--primary-cyan);
     border-radius: var(--radius-sm);
     color: var(--brand-white);
     min-height: 54px;
     outline: none;
     padding: 0 16px;
     width: 100%;
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-    border-color: var(--brand-cyan);
-    box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.15);
-    transition: all 0.3s ease;
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.15), inset 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
 .phone-input-wrapper {
@@ -955,12 +968,12 @@ button, input, select {
 
 .whatsapp-float {
     align-items: center;
-    background: linear-gradient(135deg, var(--brand-cyan) 0%, var(--brand-purple) 100%);
+    background: var(--gradient-pink-lime);
     border: 3px solid var(--brand-white);
     border-radius: 50%;
     bottom: 22px;
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4), 0 18px 36px rgba(0, 212, 255, 0.2);
-    color: var(--brand-white);
+    box-shadow: 0 0 40px rgba(255, 0, 110, 0.5), 0 0 60px rgba(57, 255, 20, 0.3);
+    color: var(--dark-bg);
     display: flex;
     font-family: var(--font-heading);
     font-weight: 900;
@@ -975,8 +988,8 @@ button, input, select {
 }
 
 .whatsapp-float:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 20px 40px rgba(124, 58, 237, 0.3);
+    transform: scale(1.2);
+    box-shadow: 0 0 60px rgba(255, 0, 110, 0.7), 0 0 80px rgba(57, 255, 20, 0.4);
 }
 
 .modal-overlay {
@@ -1017,15 +1030,16 @@ button, input, select {
 
 .modal-icon {
     align-items: center;
-    background: rgba(0, 212, 255, 0.12);
+    background: rgba(0, 255, 255, 0.15);
+    border: 2px solid var(--primary-cyan);
     border-radius: 50%;
-    color: var(--brand-cyan);
+    color: var(--primary-cyan);
     display: flex;
     height: 72px;
     justify-content: center;
     margin: 0 auto 22px;
     width: 72px;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
     animation: pulse 2s ease-in-out infinite;
 }
 

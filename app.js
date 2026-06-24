@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const difference = countdownTarget.getTime() - now;
 
         if (difference <= 0) {
-            document.getElementById('countdown').innerHTML = "<p style='font-size: 1.5rem; font-weight: 700; color: var(--brand-cyan);'>WE ARE NOW OPEN!</p>";
+            document.getElementById('countdown').innerHTML = "<p style='font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, #00FFFF 0%, #FF006E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);'>🔥 WE ARE NOW LIVE! 🔥</p>";
             return;
         }
 
